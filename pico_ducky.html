@@ -1,0 +1,63 @@
+<html>
+<head><div class="head_text"><br><u>Pico Rubber Ducky</u></div>
+    <link rel="stylesheet" href="./css/pico_ducky.css">
+</head>
+<body>
+    <br><br><br><br>
+    <div style="text-align:center;"><iframe  width="560" height="315" src="https://www.youtube.com/embed/Kjb2NbM7tvY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="body_text">
+    <br><br><br><br>
+    <div class="header_text2"><br>Commands & Server Address</div>
+</div>
+<br><br><br>
+    1 -- SSH command<br>
+    <! --- &nbsp;&nbsp;&nbsp;&nbsp; Run this command:<br> 
+<div class="codeblocks"><code> sudo ssh pi@(ip address of Raspberry Pi)</code>
+    <button class="button_2" onclick="myFunction()" onmouseout="outFunc()">
+        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+        </button>
+</div><br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 2 -- Update and upgrade <br>
+ <! --- &nbsp;&nbsp;&nbsp;&nbsp;   Run this command:<br>
+<div class="codeblocks"><code> sudo apt update && sudo apt upgrade</code>
+    <button class="button_2" onclick="myFunction2()" onmouseout="outFunc()">
+        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+        </button>
+</div><br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 3 -- Install OpenMediaVault<br>
+ <! --- &nbsp;&nbsp;&nbsp;&nbsp;   Run this command:<br>
+ <div class="codeblocks"><code>sudo wget -O - https://raw.githubusercontent.com/OpenMediaVault-Plugin-Developers/installScript/master/install | sudo bash</code>
+    <button class="button_2" onclick="myFunction3()" onmouseout="outFunc()">
+        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+        </button>
+</div> <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 4 -- Server Address<br>
+ <! --- &nbsp;&nbsp;&nbsp;&nbsp; Server Address:<br>
+<div class="codeblocks"><code>nfs://(IP Address)/export/(Name Of Shared Folder)</code>
+    <button class="button_2" onclick="myFunction4()" onmouseout="outFunc()">
+        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+        </button>
+</div><br><br><br>
+</div>
+ 
+ <br><br><br>
+
+ <script src="./js/pico_ducky.js"></script>
+
+</body>
+
+</html>
