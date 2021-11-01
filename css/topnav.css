@@ -1,40 +1,37 @@
- 
-  .topnav {
-    margin: 8px;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0);
-    font-family: Audiowide;
-  }
-  
-  .topnav a {
-    float:inline-start;
-    display: block;
-    color: #fcd837;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  .topnav a:hover {
-      font-weight: bolder;
-    border-radius: 10px;
-    border-style:ridge;
-    background-color: rgb(255, 235, 58);
-    color: black;
-    animation: topnav .5s infinite;
-    
-  }
-  
-  .topnav a.active {
-    background-color: #fae52a;
-    color: rgb(3, 3, 3);
-  }
-  
-  .topnav .icon {
-    display: none;
-  }
+/* Add a black background color to the top navigation */
+.topnav {
+  font-family: Audiowide;
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  display: block;
+  color: #ffeb35;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: rgb(255, 223, 41);
+  color: black;
+}
+
+/* Add an active class to highlight the current page */
+.topnav a.active {
+  background-color: #fffc2e;
+  color: rgb(0, 0, 0);
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+  display: none;
+}
   
   
   @media screen and (max-width: 600px) {

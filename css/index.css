@@ -1,5 +1,31 @@
 body {
-    margin-top: 10px;
-    background-color: rgb(26, 26, 26);
+
+    background-color: rgb(12, 12, 12);
     color: rgb(255, 251, 0);
   }
+
+.responsive_top_img {
+  margin: 0 0 0 15px;
+  float: right;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+.main_image{
+  margin: 0 0 0 15px;
+  float: right;
+}
+
+.upper_text{
+  
+  margin: 20px;
+  text-align: left;
+}
+
+.top_video{
+  height: auto;
+  width: min-content;
+  margin-top: 30px;
+  margin-left: 20px;
+}
