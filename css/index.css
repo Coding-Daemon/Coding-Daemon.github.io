@@ -5,27 +5,32 @@ body {
   }
 
 .responsive_top_img {
-  margin: 0 0 0 15px;
   float: right;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
+    min-width: 60px;
     height: auto;
   }
 
 .main_image{
-  margin: 0 0 0 15px;
-  float: right;
+  width: 100%;
+  height: auto;
 }
 
 .upper_text{
-  
+  font-size: auto;
+  font-family: Brush Script MT;
   margin: 20px;
   text-align: left;
 }
 
 .top_video{
-  height: auto;
-  width: min-content;
-  margin-top: 30px;
-  margin-left: 20px;
+  position:static;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }

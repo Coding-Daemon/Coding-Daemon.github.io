@@ -3,13 +3,14 @@
   font-family: Audiowide;
   background-color: #333;
   overflow: hidden;
+  border-radius: 6px;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
   display: block;
-  color: #ffeb35;
+  color: #fffc2e;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -20,10 +21,13 @@
 .topnav a:hover {
   background-color: rgb(255, 223, 41);
   color: black;
+  border-radius: 8px;
+  motion: reverse;
 }
 
 /* Add an active class to highlight the current page */
 .topnav a.active {
+  border-radius: 8px;
   background-color: #fffc2e;
   color: rgb(0, 0, 0);
 }
