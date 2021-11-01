@@ -1,5 +1,6 @@
 /* Add a black background color to the top navigation */
 .topnav {
+  position: sticky;
   font-family: Audiowide;
   background-color: #333;
   overflow: hidden;
