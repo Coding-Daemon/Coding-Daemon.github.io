@@ -17,6 +17,7 @@ body {
 }
 
 iframe {
+    border-radius: 12px;
     float: center;
     margin: 20px;
 }
