@@ -10,3 +10,13 @@ body {
     max-width: 280px;
     height: auto;
     }
+
+.videos_iframe {
+    margin: auto;
+    background-color: rgb(20,20,20);
+}
+
+iframe {
+    float: center;
+    margin: 20px;
+}
