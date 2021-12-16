@@ -68,3 +68,11 @@
   75%  {border-color: rgb(250, 226, 121);}
   100% {border-color: rgb(253, 209, 15);}
   }
+
+  .upper-logo {
+    max-height: 290px;
+    border-radius: 8px;
+    width: 100%;
+    height: auto;
+    
+    }
