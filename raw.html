@@ -1,0 +1,75 @@
+<html>
+<body>
+    int Button1 = 2;<br>
+    int Button2 = 3;<br>
+    int Button3 = 4;<br>
+    <br>
+    int a = 8;<br>
+    int b = 6;<br>
+    int c = 7;<br>
+    int d = 10;<br>
+    int e = 9;<br>
+    int g = 5;<br>
+    <br>
+    void setup()<br>
+    {<br>
+      //Inputs<br>
+    pinMode(Button1, INPUT);<br>
+    pinMode(Button2, INPUT);<br>
+    pinMode(Button3, INPUT);<br>
+      //Outputs<br>
+    pinMode(a, OUTPUT);<br>
+    pinMode(b, OUTPUT);<br>
+    pinMode(c, OUTPUT);<br>
+    pinMode(d, OUTPUT);<br>
+    pinMode(e, OUTPUT);<br>
+    pinMode(g, OUTPUT);<br>
+    }<br>
+    <br>
+    void loop()<br>
+    {<br>
+      int x,y,z;<br>
+      x = digitalRead(Button1);<br>
+      y = digitalRead(Button2);<br>
+      z = digitalRead(Button3);<br>
+      <br>
+      if(x == 1){<br>
+        <br>
+      digitalWrite(b, HIGH);<br>
+      digitalWrite(c, HIGH);<br>
+      digitalWrite(e, LOW);<br>
+      digitalWrite(d, LOW);<br>
+      digitalWrite(g, LOW);<br>
+      digitalWrite(a, LOW);<br>
+      }<br>
+      else if(y == 1){<br>
+        <br>
+      digitalWrite(a, HIGH);<br>
+      digitalWrite(b, HIGH);<br>
+      digitalWrite(e, HIGH);<br>
+      digitalWrite(d, HIGH);<br>
+      digitalWrite(g, HIGH);<br>
+      digitalWrite(c, LOW);<br>
+      }<br>
+      else if(z == 1){<br>
+        <br>
+      digitalWrite(c, HIGH);<br>
+      digitalWrite(a, HIGH);<br>
+      digitalWrite(b, HIGH);<br>
+      digitalWrite(g, HIGH);<br>
+      digitalWrite(d, HIGH);<br>
+      digitalWrite(e, LOW);<br>
+      }<br>
+      else{<br>
+        <br>
+      digitalWrite(c, LOW);<br>
+      digitalWrite(a, LOW);<br>
+      digitalWrite(b, LOW);<br>
+      digitalWrite(g, LOW);<br>
+      digitalWrite(d, LOW);<br>
+      digitalWrite(e, LOW);<br>
+      }<br>
+    }<br>
+</body>
+
+</html>

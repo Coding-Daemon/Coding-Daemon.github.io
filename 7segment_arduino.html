@@ -1,0 +1,135 @@
+<html>
+<head><div class="head_text"><br><u>7 Segment Display By Arduino</u></div>
+    <link rel="stylesheet" href="./css/pi_nas.css">
+    <title>Projects - 7 segment Display</title>
+</head>
+<body>
+    <br><br><br><br>
+    <div style="text-align:center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/kjsFfmosKpE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="body_text">
+    <br><br><br><br>
+    <div class="header_text2"><br>Code & Circuit</div>
+</div>
+<br><br><br>
+    1 -- Code<br>
+    <! --- &nbsp;&nbsp;&nbsp;&nbsp; Use This Code<br> 
+<div class="codeblocks"><code>
+int Button1 = 2;<br>
+int Button2 = 3;<br>
+int Button3 = 4;<br>
+<br>
+int a = 8;<br>
+int b = 6;<br>
+int c = 7;<br>
+int d = 10;<br>
+int e = 9;<br>
+int g = 5;<br>
+<br>
+void setup()<br>
+{<br>
+  //Inputs<br>
+pinMode(Button1, INPUT);<br>
+pinMode(Button2, INPUT);<br>
+pinMode(Button3, INPUT);<br>
+  //Outputs<br>
+pinMode(a, OUTPUT);<br>
+pinMode(b, OUTPUT);<br>
+pinMode(c, OUTPUT);<br>
+pinMode(d, OUTPUT);<br>
+pinMode(e, OUTPUT);<br>
+pinMode(g, OUTPUT);<br>
+}<br>
+<br>
+void loop()<br>
+{<br>
+  int x,y,z;<br>
+  x = digitalRead(Button1);<br>
+  y = digitalRead(Button2);<br>
+  z = digitalRead(Button3);<br>
+  <br>
+  if(x == 1){<br>
+    <br>
+  digitalWrite(b, HIGH);<br>
+  digitalWrite(c, HIGH);<br>
+  digitalWrite(e, LOW);<br>
+  digitalWrite(d, LOW);<br>
+  digitalWrite(g, LOW);<br>
+  digitalWrite(a, LOW);<br>
+  }<br>
+  else if(y == 1){<br>
+    <br>
+  digitalWrite(a, HIGH);<br>
+  digitalWrite(b, HIGH);<br>
+  digitalWrite(e, HIGH);<br>
+  digitalWrite(d, HIGH);<br>
+  digitalWrite(g, HIGH);<br>
+  digitalWrite(c, LOW);<br>
+  }<br>
+  else if(z == 1){<br>
+    <br>
+  digitalWrite(c, HIGH);<br>
+  digitalWrite(a, HIGH);<br>
+  digitalWrite(b, HIGH);<br>
+  digitalWrite(g, HIGH);<br>
+  digitalWrite(d, HIGH);<br>
+  digitalWrite(e, LOW);<br>
+  }<br>
+  else{<br>
+    <br>
+  digitalWrite(c, LOW);<br>
+  digitalWrite(a, LOW);<br>
+  digitalWrite(b, LOW);<br>
+  digitalWrite(g, LOW);<br>
+  digitalWrite(d, LOW);<br>
+  digitalWrite(e, LOW);<br>
+  }<br>
+}<br>
+</code>
+<button class="button_2" 
+onclick="window.location.href = 'https://coding-daemon.github.io/raw.html';">
+    View RAW
+</button>
+</div><br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 2 -- Tinkercad link <br>
+ <! --- &nbsp;&nbsp;&nbsp;&nbsp;   Use this link to see the project<br>
+<div class="codeblocks"><code> https://www.tinkercad.com/things/cNRSNuhSrD7 </code>
+    <button class="button_2" 
+onclick="window.location.href = 'https://www.tinkercad.com/things/cNRSNuhSrD7';">
+    Open Website
+</button>
+</div><br>
+ <iframe width="725" height="453" src="https://www.tinkercad.com/embed/cNRSNuhSrD7?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 3 -- Circuit<br>
+ <! --- &nbsp;&nbsp;&nbsp;&nbsp;   Use this Circuit:<br>
+ <div class="codeblocks"> <a href="./img/2d_circuit.png" download> <img eight="auto" max-width="400px" width="100%" src="./img/2d_circuit.png" alt="3D Circuit Image"></a>
+    <br> <br>
+    
+    <a href="./img/3d_circuit.png" download> <img height="auto" max-width="400px" width="100%" src="./img/3d_circuit.png" alt="3D Circuit Image"></a>
+    
+</div> <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
+</div><br><br><br>
+</div>
+ 
+ <br><br><br>
+
+ <script src="../js/pi_nas.js"></script>
+
+</body>
+
+</html>
