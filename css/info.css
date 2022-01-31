@@ -1,0 +1,41 @@
+body {
+
+    background-color: rgb(14, 14, 14);
+    color: rgb(255, 251, 0);
+  }
+
+.responsive_top_img {
+  float: right;
+    width: 100%;
+    max-width: 600px;
+    min-width: 10px;
+    height: auto;
+  }
+
+.main_image{
+  width: 100%;
+  height: auto;
+}
+
+.upper_text{
+  font-size: auto;
+  font-family: Brush Script MT;
+  margin: 20px;
+  text-align: left;
+}
+
+.top_video{
+  margin: 35px;
+  position:relative;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  border: none;
+
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
