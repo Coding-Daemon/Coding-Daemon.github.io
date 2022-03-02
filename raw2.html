@@ -1,0 +1,318 @@
+<html>
+<body>
+    #include LiquidCrystal.h <br>
+    <br>
+    #define PIN_BUTTON 2<br>
+    #define PIN_AUTOPLAY 1<br>
+    #define PIN_READWRITE 10<br>
+    #define PIN_CONTRAST 12<br>
+    <br>
+    #define SPRITE_RUN1 1<br>
+    #define SPRITE_RUN2 2<br>
+    #define SPRITE_JUMP 3<br>
+    #define SPRITE_JUMP_UPPER '.'         // Use the '.' character for the head<br>
+    #define SPRITE_JUMP_LOWER 4<br>
+    #define SPRITE_TERRAIN_EMPTY ' '      // User the ' ' character<br>
+    #define SPRITE_TERRAIN_SOLID 5<br>
+    #define SPRITE_TERRAIN_SOLID_RIGHT 6<br>
+    #define SPRITE_TERRAIN_SOLID_LEFT 7<br>
+    <br>
+    #define HERO_HORIZONTAL_POSITION 1    // Horizontal position of hero on screen<br>
+    <br>
+    #define TERRAIN_WIDTH 16<br>
+    #define TERRAIN_EMPTY 0<br>
+    #define TERRAIN_LOWER_BLOCK 1<br>
+    #define TERRAIN_UPPER_BLOCK 2<br>
+    <br>
+    #define HERO_POSITION_OFF 0          // Hero is invisible<br>
+    #define HERO_POSITION_RUN_LOWER_1 1  // Hero is running on lower row (pose 1)<br>
+    #define HERO_POSITION_RUN_LOWER_2 2  //                              (pose 2)<br>
+    <br>
+    #define HERO_POSITION_JUMP_1 3       // Starting a jump<br>
+    #define HERO_POSITION_JUMP_2 4       // Half-way up<br>
+    #define HERO_POSITION_JUMP_3 5       // Jump is on upper row<br>
+    #define HERO_POSITION_JUMP_4 6       // Jump is on upper row<br>
+    #define HERO_POSITION_JUMP_5 7       // Jump is on upper row<br>
+    #define HERO_POSITION_JUMP_6 8       // Jump is on upper row<br>
+    #define HERO_POSITION_JUMP_7 9       // Half-way down<br>
+    #define HERO_POSITION_JUMP_8 10      // About to land<br>
+    <br>
+    #define HERO_POSITION_RUN_UPPER_1 11 // Hero is running on upper row (pose 1)<br>
+    #define HERO_POSITION_RUN_UPPER_2 12 //                              (pose 2)<br>
+    int buzzer = 1;<br>
+    LiquidCrystal lcd(11, 9, 6, 5, 4, 3);<br>
+    static char terrainUpper[TERRAIN_WIDTH + 1];<br>
+    static char terrainLower[TERRAIN_WIDTH + 1];<br>
+    static bool buttonPushed = false;<br>
+    <br>
+    void initializeGraphics(){<br>
+      static byte graphics[] = {<br>
+        // Run position 1<br>
+        B01100,<br>
+        B01100,<br>
+        B00000,<br>
+        B01110,<br>
+        B11100,<br>
+        B01100,<br>
+        B11010,<br>
+        B10011,<br>
+        // Run position 2<br>
+        B01100,<br>
+        B01100,<br>
+        B00000,<br>
+        B01100,<br>
+        B01100,<br>
+        B01100,<br>
+        B01100,<br>
+        B01110,<br>
+        // Jump<br>
+        B01100,<br>
+        B01100,<br>
+        B00000,<br>
+        B11110,<br>
+        B01101,<br>
+        B11111,<br>
+        B10000,<br>
+        B00000,<br>
+        // Jump lower<br>
+        B11110,<br>
+        B01101,<br>
+        B11111,<br>
+        B10000,<br>
+        B00000,<br>
+        B00000,<br>
+        B00000,<br>
+        B00000,<br>
+        // Ground<br>
+        B11111,<br>
+        B11111,<br>
+        B11111,<br>
+        B11111,<br>
+        B11111,<br>
+        B11111,<br>
+        B11111,<br>
+        B11111,<br>
+        // Ground right<br>
+        B00011,<br>
+        B00011,<br>
+        B00011,<br>
+        B00011,<br>
+        B00011,<br>
+        B00011,<br>
+        B00011,<br>
+        B00011,<br>
+        // Ground left<br>
+        B11000,<br>
+        B11000,<br>
+        B11000,<br>
+        B11000,<br>
+        B11000,<br>
+        B11000,<br>
+        B11000,<br>
+        B11000,<br>
+      };<br>
+      int i;<br>
+      // Skip using character 0, this allows lcd.print() to be used to<br>
+      // quickly draw multiple characters<br>
+      for (i = 0; i < 7; ++i) {<br>
+        lcd.createChar(i + 1, &graphics[i * 8]);<br>
+      }<br>
+      for (i = 0; i < TERRAIN_WIDTH; ++i) {<br>
+        terrainUpper[i] = SPRITE_TERRAIN_EMPTY;<br>
+        terrainLower[i] = SPRITE_TERRAIN_EMPTY;<br>
+      }
+    }<br>
+    <br>
+    // Slide the terrain to the left in half-character increments<br>
+    //<br>
+    void advanceTerrain(char* terrain, byte newTerrain){<br>
+      for (int i = 0; i < TERRAIN_WIDTH; ++i) {<br>
+        char current = terrain[i];<br>
+        char next = (i == TERRAIN_WIDTH-1) ? newTerrain : terrain[i+1];<br>
+        switch (current){<br>
+          case SPRITE_TERRAIN_EMPTY:<br>
+            terrain[i] = (next == SPRITE_TERRAIN_SOLID) ? SPRITE_TERRAIN_SOLID_RIGHT : SPRITE_TERRAIN_EMPTY;<br>
+            break;<br>
+          case SPRITE_TERRAIN_SOLID:<br>
+            terrain[i] = (next == SPRITE_TERRAIN_EMPTY) ? SPRITE_TERRAIN_SOLID_LEFT : SPRITE_TERRAIN_SOLID;<br>
+            break;<br>
+          case SPRITE_TERRAIN_SOLID_RIGHT:<br>
+            terrain[i] = SPRITE_TERRAIN_SOLID;<br>
+            break;<br>
+          case SPRITE_TERRAIN_SOLID_LEFT:<br>
+            terrain[i] = SPRITE_TERRAIN_EMPTY;<br>
+            break;<br>
+        }<br>
+      }<br>
+    }<br>
+    <br>
+    bool drawHero(byte position, char* terrainUpper, char* terrainLower, unsigned int score) <br>
+      bool collide = false;<br>
+      char upperSave = terrainUpper[HERO_HORIZONTAL_POSITION];<br>
+      char lowerSave = terrainLower[HERO_HORIZONTAL_POSITION];<br>
+      byte upper, lower;<br>
+      switch (position) {<br>
+        case HERO_POSITION_OFF:<br>
+          upper = lower = SPRITE_TERRAIN_EMPTY;<br>
+          break;<br>
+        case HERO_POSITION_RUN_LOWER_1:<br>
+          upper = SPRITE_TERRAIN_EMPTY;<br>
+          lower = SPRITE_RUN1;<br>
+          break;<br>
+        case HERO_POSITION_RUN_LOWER_2:<br>
+          upper = SPRITE_TERRAIN_EMPTY;<br>
+          lower = SPRITE_RUN2;<br>
+          break;<br>
+        case HERO_POSITION_JUMP_1:<br>
+        case HERO_POSITION_JUMP_8:<br>
+          upper = SPRITE_TERRAIN_EMPTY;<br>
+          lower = SPRITE_JUMP;<br>
+          break;<br>
+        case HERO_POSITION_JUMP_2:<br>
+        case HERO_POSITION_JUMP_7:<br>
+          upper = SPRITE_JUMP_UPPER;<br>
+          lower = SPRITE_JUMP_LOWER;<br>
+          break;<br>
+        case HERO_POSITION_JUMP_3:<br>
+        case HERO_POSITION_JUMP_4:<br>
+        case HERO_POSITION_JUMP_5:<br>
+        case HERO_POSITION_JUMP_6:<br>
+          upper = SPRITE_JUMP;<br>
+          lower = SPRITE_TERRAIN_EMPTY;<br>
+          break;<br>
+        case HERO_POSITION_RUN_UPPER_1:<br>
+          upper = SPRITE_RUN1;<br>
+          lower = SPRITE_TERRAIN_EMPTY;<br>
+          break;<br>
+        case HERO_POSITION_RUN_UPPER_2:<br>
+          upper = SPRITE_RUN2;<br>
+          lower = SPRITE_TERRAIN_EMPTY;<br>
+          break;<br>
+      }<br>
+      if (upper != ' ') {<br>
+        terrainUpper[HERO_HORIZONTAL_POSITION] = upper;<br>
+        collide = (upperSave == SPRITE_TERRAIN_EMPTY) ? false : true;<br>
+      }<br>
+      if (lower != ' ') {<br>
+        terrainLower[HERO_HORIZONTAL_POSITION] = lower;<br>
+        collide |= (lowerSave == SPRITE_TERRAIN_EMPTY) ? false : true;<br>
+      }
+      <br>
+      byte digits = (score > 9999) ? 5 : (score > 999) ? 4 : (score > 99) ? 3 : (score > 9) ? 2 : 1;<br>
+      <br>
+      // Draw the scene<br>
+      terrainUpper[TERRAIN_WIDTH] = '\0';<br>
+      terrainLower[TERRAIN_WIDTH] = '\0';<br>
+      char temp = terrainUpper[16-digits];<br>
+      terrainUpper[16-digits] = '\0';<br>
+      lcd.setCursor(0,0);<br>
+      lcd.print(terrainUpper);<br>
+      terrainUpper[16-digits] = temp;  <br>
+      lcd.setCursor(0,1);<br>
+      lcd.print(terrainLower);<br>
+      <br>
+      lcd.setCursor(16 - digits,0);<br>
+      lcd.print(score);<br>
+      <br>
+      terrainUpper[HERO_HORIZONTAL_POSITION] = upperSave;<br>
+      terrainLower[HERO_HORIZONTAL_POSITION] = lowerSave;<br>
+      return collide;<br>
+    }<br>
+    <br>
+    // Handle the button push as an interrupt<br>
+    void buttonPush() {<br>
+      buttonPushed = true;<br>
+    }<br>
+    <br>
+    void setup(){<br>
+      pinMode(PIN_READWRITE, OUTPUT);<br>
+      digitalWrite(PIN_READWRITE, LOW);<br>
+      pinMode(PIN_CONTRAST, OUTPUT);<br>
+      digitalWrite(PIN_CONTRAST, LOW);<br>
+      pinMode(PIN_BUTTON, INPUT);<br>
+      digitalWrite(PIN_BUTTON, HIGH);<br>
+      pinMode(PIN_AUTOPLAY, OUTPUT);<br>
+      digitalWrite(PIN_AUTOPLAY, HIGH);<br>
+      <br>
+      // Digital pin 2 maps to interrupt 0<br>
+      attachInterrupt(0/*PIN_BUTTON*/, buttonPush, FALLING);<br>
+      pinMode(buzzer,OUTPUT);<br>
+      initializeGraphics();<br>
+      digitalWrite(buzzer,LOW);<br>
+      lcd.begin(16, 2);<br>
+    }<br>
+    <br>
+    void loop(){<br>
+      static byte heroPos = HERO_POSITION_RUN_LOWER_1;<br>
+      static byte newTerrainType = TERRAIN_EMPTY;<br>
+      static byte newTerrainDuration = 1;<br>
+      static bool playing = false;<br>
+      static bool blink = false;<br>
+      static unsigned int distance = 0;<br>
+      <br>
+      if (!playing) {<br>
+        drawHero((blink) ? HERO_POSITION_OFF : heroPos, terrainUpper, terrainLower, distance >> 3);<br>
+        if (blink) {<br>
+          lcd.setCursor(0,0);<br>
+          lcd.print("Press Start");<br>
+        }<br>
+        delay(250);<br>
+        blink = !blink;<br>
+        if (buttonPushed) {<br>
+          initializeGraphics();<br>
+          heroPos = HERO_POSITION_RUN_LOWER_1;<br>
+          playing = true;<br>
+          buttonPushed = false;<br>
+          distance = 0;<br>
+        }<br>
+        return;<br>
+      }<br>
+      <br>
+      // Shift the terrain to the left<br>
+      advanceTerrain(terrainLower, newTerrainType == TERRAIN_LOWER_BLOCK ? SPRITE_TERRAIN_SOLID : SPRITE_TERRAIN_EMPTY);<br>
+      advanceTerrain(terrainUpper, newTerrainType == TERRAIN_UPPER_BLOCK ? SPRITE_TERRAIN_SOLID : SPRITE_TERRAIN_EMPTY);<br>
+      <br>
+      // Make new terrain to enter on the right<br>
+      if (--newTerrainDuration == 0) {<br>
+        if (newTerrainType == TERRAIN_EMPTY) {<br>
+          newTerrainType = (random(3) == 0) ? TERRAIN_UPPER_BLOCK : TERRAIN_LOWER_BLOCK;<br>
+          newTerrainDuration = 2 + random(10);<br>
+        } else {<br>
+          newTerrainType = TERRAIN_EMPTY;<br>
+          newTerrainDuration = 10 + random(10);<br>
+        }<br>
+      }<br>
+      <br>
+      if (buttonPushed) {<br>
+        <br>
+        if (heroPos <= HERO_POSITION_RUN_LOWER_2) heroPos = HERO_POSITION_JUMP_1;<br>
+        buttonPushed = false;<br>
+        //digitalWrite(buzzer,HIGH);<br>
+        //delay(70);<br>
+       // digitalWrite(buzzer,LOW);<br>
+        //delay(50);<br>
+      }  <br>
+      <br>
+      if (drawHero(heroPos, terrainUpper, terrainLower, distance >> 3)) {<br>
+        playing = false; // The hero collided with something. Too bad.<br>
+      } else {<br>
+        if (heroPos == HERO_POSITION_RUN_LOWER_2 || heroPos == HERO_POSITION_JUMP_8) {<br>
+          heroPos = HERO_POSITION_RUN_LOWER_1;<br>
+        } else if ((heroPos >= HERO_POSITION_JUMP_3 && heroPos <= HERO_POSITION_JUMP_5) && terrainLower[HERO_HORIZONTAL_POSITION] != SPRITE_TERRAIN_EMPTY) {<br>
+          heroPos = HERO_POSITION_RUN_UPPER_1;<br>
+        } else if (heroPos >= HERO_POSITION_RUN_UPPER_1 && terrainLower[HERO_HORIZONTAL_POSITION] == SPRITE_TERRAIN_EMPTY) {<br>
+          heroPos = HERO_POSITION_JUMP_5;<br>
+        } else if (heroPos == HERO_POSITION_RUN_UPPER_2) {<br>
+          heroPos = HERO_POSITION_RUN_UPPER_1;<br>
+        } else {<br>
+          ++heroPos;<br>
+        }<br>
+        ++distance;<br>
+        <br>
+        digitalWrite(PIN_AUTOPLAY, terrainLower[HERO_HORIZONTAL_POSITION + 2] == SPRITE_TERRAIN_EMPTY ? HIGH : LOW);<br>
+      }<br>
+      delay(100);<br>
+    }<br>
+</body>
+
+</html>
